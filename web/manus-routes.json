@@ -1,0 +1,1 @@
+{"routes":[{"path":"/","title":"总览 · GateBox"},{"path":"/login","title":"安全登录 · GateBox"},{"path":"/nodes","title":"节点管理 · GateBox"},{"path":"/egresses","title":"出口配置 · GateBox"},{"path":"/subscriptions","title":"私密订阅 · GateBox"},{"path":"/tasks","title":"任务与计划 · GateBox"},{"path":"/settings","title":"系统设置 · GateBox"},{"path":"/pool","title":"候选池 · GateBox"}]}

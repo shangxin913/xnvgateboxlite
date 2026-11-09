@@ -1,0 +1,15 @@
+.venv/
+.runtime/
+data/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.pytest_cache/
+*.db
+*.db-wal
+*.db-shm
+*.key
+initial-access.txt
+*.zip

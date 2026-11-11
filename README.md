@@ -45,6 +45,22 @@ sudo journalctl -u gateboxlite-api -n 80
 
 部署目录是 `/opt/gateboxlite`，数据在 `/var/lib/gateboxlite`，环境配置在 `/etc/gateboxlite/environment`。安装器遇到已有安装拒绝覆盖。公网管理建议由已有 Caddy/Nginx 提供 HTTPS，反向代理到 `127.0.0.1:8899`，并禁用代理访问日志或对 `/sub/` 的 Token 路径脱敏。没有域名时可使用 SSH 转发；如使用纯 HTTP，显式将环境配置设为 `GATEBOX_COOKIE_SECURE=false` 并重启，不要将这种模式直接公开到互联网。
 
+### 一键生产部署
+
+公开仓库提供 Ubuntu 24.04 一键部署脚本。脚本从 GitHub 拉取当前 `main`，拒绝覆盖已有 GateBox 数据/配置，安装 systemd 服务和 Caddy，并在结束时输出访问地址、`admin` 用户名和一次性初始密码。没有域名时使用 VPS 公网 IP 和 HTTP：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shangxin913/xnvgateboxlite/main/scripts/deploy-production.sh | sudo bash
+```
+
+有域名并已把 A/AAAA 记录解析到 VPS 时，设置域名后 Caddy 会自动申请 HTTPS 证书：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shangxin913/xnvgateboxlite/main/scripts/deploy-production.sh | sudo env GATEBOX_DOMAIN=gatebox.example.com bash
+```
+
+脚本默认只放行已启用 UFW 中的 80 端口；域名模式额外放行 443。云厂商安全组仍需手动放行 SSH，以及 HTTP 模式的 80 或 HTTPS 模式的 80/443。脚本不会自动修改已有 Caddy 配置、系统路由、VPN、Xray 或代理转发。
+
 Caddy 参考（需要用户自己的域名、DNS 与 80/443 端口；请按实际环境配置，不由安装器执行）：
 
 ```caddyfile
